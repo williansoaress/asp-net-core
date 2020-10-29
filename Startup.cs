@@ -26,10 +26,8 @@ namespace web
                 app.UseDeveloperExceptionPage();
             }
 
-            var livros = new List<Livro>();
-            livros.Add(new Livro("001", "Teste 1", 9.99m));
-            livros.Add(new Livro("002", "Teste 2", 8.99m));
-            livros.Add(new Livro("003", "Teste 3", 7.99m));
+            Catalogo catalogo = new Catalogo();
+            Relatorio relatorio = new Relatorio(catalogo);
 
             app.UseRouting();
 
@@ -37,11 +35,7 @@ namespace web
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    foreach (var livro in livros)
-                    {
-                        await context.Response.WriteAsync($"{livro.Codigo}" + " " + $"{livro.Nome}" +" "+ $"{livro.Preco.ToString("C")}\r\n");
-                    }
-
+                    await relatorio.Imprimir(context);
                 });
             });
         }
