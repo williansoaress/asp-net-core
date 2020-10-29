@@ -26,13 +26,22 @@ namespace web
                 app.UseDeveloperExceptionPage();
             }
 
+            var livros = new List<Livro>();
+            livros.Add(new Livro("001", "Teste 1", 9.99m));
+            livros.Add(new Livro("002", "Teste 2", 8.99m));
+            livros.Add(new Livro("003", "Teste 3", 7.99m));
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    foreach (var livro in livros)
+                    {
+                        await context.Response.WriteAsync($"{livro.Codigo}" + " " + $"{livro.Nome}" +" "+ $"{livro.Preco.ToString("C")}\r\n");
+                    }
+
                 });
             });
         }
